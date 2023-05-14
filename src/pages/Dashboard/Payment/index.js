@@ -1,9 +1,39 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import useEnrollment from '../../../hooks/api/useEnrollment';
+import Ticket from './TicketBox';
+import { useState } from 'react';
 
 export default function Payment() {
+  //mock de dados
+  const tickets = [
+    { id: 1, name: 'Presencial', price: 200, isRemote: false, includesHotel: true },
+    { id: 2, name: 'Online', price: 100, isRemote: true, includesHotel: false },
+  ];
+  //mock de dados dos hotels
+  const hotels = [
+    { id: 3, name: 'Sem Hotel', withHotel: false, hotelPrice: 0 },
+    { id: 4, name: 'Com Hotel', withHotel: true, hotelPrice: 350 },
+  ];
   const { enrollment } = useEnrollment();
+  const [isPresencial, setIsPresencial] = useState(false);
+  const [withHotel, setWithHotel] = useState(false);
+  const [price,setPrice] = useState(0)
+  let ticketPrice = 0
+
+  function handleTicketData(id) {
+    const verifyIsRemote = tickets.find((el) => el.id === id);
+    console.log(verifyIsRemote);
+    if (!verifyIsRemote.isRemote) {
+      setIsPresencial(!isPresencial);
+    }
+  }
+
+  function handleHotelData(id) {
+    const {hotelPrice,withHotel} = hotels.find((el) => el.id === id);
+    setWithHotel(!withHotel)
+    set
+  }
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
@@ -11,15 +41,28 @@ export default function Payment() {
         <>
           <TicketsTitle>Primeiro, escolha sua modalidade de ingresso</TicketsTitle>
           <TicketsContainer>
-            <TicketBox>
-              <TicketType>Presencial</TicketType>
-              <TicketPrice>R$ 250</TicketPrice>
-            </TicketBox>
-            <TicketBox>
-              <TicketType>Online</TicketType>
-              <TicketPrice>R$ 100</TicketPrice>
-            </TicketBox>
+            {tickets.map((el) => (
+              <Ticket key={el.id} id={el.id} name={el.name} price={el.price} handleTicketData={handleTicketData} />
+            ))}
           </TicketsContainer>
+          {isPresencial ? (
+            <>
+              <TicketsTitle>Ótimo! Agora escolha sua modalidade de hospedagem</TicketsTitle>
+              <TicketsContainer>
+                {hotels.map((el) => (
+                  <Ticket
+                    key={el.id}
+                    id={el.id}
+                    name={el.name}
+                    price={el.hotelPrice}
+                    handleHotelData={handleHotelData}
+                  />
+                ))}
+              </TicketsContainer>
+            </>
+          ) : (
+            ''
+          )}
         </>
       ) : (
         <>
@@ -62,30 +105,5 @@ const TicketsContainer = styled.div`
   width: 100%;
   height: auto;
   gap: 20px;
-`;
-
-const TicketBox = styled.section`
-  height: 145px;
-  width: 145px;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #cecece;
-`;
-
-const TicketType = styled.h2`
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 19px;
-  color: #454545;
-`;
-
-const TicketPrice = styled.h3`
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16px;
-  color: #898989;
+  margin-bottom: 40px;
 `;
