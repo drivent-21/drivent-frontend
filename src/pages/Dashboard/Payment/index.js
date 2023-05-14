@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import useEnrollment from '../../../hooks/api/useEnrollment';
 import Ticket from './TicketBox';
 import { useState } from 'react';
+import Hotel from './HotelBox';
 
 export default function Payment() {
   //mock de dados
@@ -18,21 +19,21 @@ export default function Payment() {
   const { enrollment } = useEnrollment();
   const [isPresencial, setIsPresencial] = useState(false);
   const [withHotel, setWithHotel] = useState(false);
-  const [price,setPrice] = useState(0)
-  let ticketPrice = 0
+  const [ticketPrice, setTicketPrice] = useState(0);
+  const [finalPrice, setFinalPrice] = useState(0);
 
   function handleTicketData(id) {
     const verifyIsRemote = tickets.find((el) => el.id === id);
     console.log(verifyIsRemote);
     if (!verifyIsRemote.isRemote) {
       setIsPresencial(!isPresencial);
+      setTicketPrice(verifyIsRemote.price);
     }
   }
-
   function handleHotelData(id) {
-    const {hotelPrice,withHotel} = hotels.find((el) => el.id === id);
-    setWithHotel(!withHotel)
-    set
+    const { hotelPrice } = hotels.find((el) => el.id === id);
+    setWithHotel(true);
+    setFinalPrice(ticketPrice + hotelPrice);
   }
   return (
     <>
@@ -50,7 +51,7 @@ export default function Payment() {
               <TicketsTitle>Ótimo! Agora escolha sua modalidade de hospedagem</TicketsTitle>
               <TicketsContainer>
                 {hotels.map((el) => (
-                  <Ticket
+                  <Hotel
                     key={el.id}
                     id={el.id}
                     name={el.name}
@@ -59,6 +60,16 @@ export default function Payment() {
                   />
                 ))}
               </TicketsContainer>
+              {withHotel ? (
+                <>
+                  <FinalizeTitle>
+                    Fechado! O total ficou em <span>R${finalPrice}</span>. Agora é só confirmar:
+                  </FinalizeTitle>
+                  <FinalizeButton>RESERVER INGRESSO</FinalizeButton>
+                </>
+              ) : (
+                ''
+              )}
             </>
           ) : (
             ''
@@ -106,4 +117,31 @@ const TicketsContainer = styled.div`
   height: auto;
   gap: 20px;
   margin-bottom: 40px;
+`;
+
+const FinalizeTitle = styled.h1`
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 17px;
+  color: #8e8e8e;
+  span {
+    font-weight: 700;
+  }
+`;
+
+const FinalizeButton = styled.button`
+  height: 37px;
+  width: 162px;
+  left: 335px;
+  top: 749px;
+  border-radius: 4px;
+  border: none;
+  background-color: #e0e0e0;
+  box-shadow: 0px 2px 10px 0px #00000040;
+
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  color: #111;
+  cursor: pointer;
 `;
