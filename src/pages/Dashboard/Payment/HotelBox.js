@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
-export default function Hotel({ id, name, price, handleHotelData }) {
+export default function Hotel({ id, name, price, handleHotelData, hotelType, disabledHotelButton }) {
   const [click, setClick] = useState(false);
   function handleClick() {
     setClick(!click);
   }
   return (
     <TicketBox
-      backColor={click ? '#FFEED2' : ''}
+      disabled={hotelType ? true : false}
+      backColor={click ? '#FFEED2' : 'white'}
       borderColor={click ? '#FFEED2' : '#CECECE'}
       onClick={() => {
         handleClick();
         handleHotelData(id);
+        disabledHotelButton(name);
       }}
     >
       <TicketType>{name}</TicketType>
@@ -21,7 +23,7 @@ export default function Hotel({ id, name, price, handleHotelData }) {
   );
 }
 
-const TicketBox = styled.section`
+const TicketBox = styled.button`
   height: 145px;
   width: 145px;
   border-radius: 20px;
@@ -32,6 +34,9 @@ const TicketBox = styled.section`
   align-items: center;
   border: 1px solid ${(props) => props.borderColor};
   background-color: ${(props) => props.backColor};
+  :hover{
+    cursor:pointer;
+  }
 `;
 
 const TicketType = styled.h2`

@@ -1,18 +1,20 @@
 import styled from 'styled-components';
 import { useState } from 'react';
 
-export default function Ticket({ id, name, price, handleTicketData }) {
+export default function Ticket({ id, name, price, handleTicketData, ticketType, disabledTicketButton }) {
   const [click, setClick] = useState(false);
   function handleClick() {
     setClick(!click);
   }
   return (
     <TicketBox
-      backColor={click ? '#FFEED2' : ''}
+      disabled={ticketType != '' ? true : false}
+      backColor={click ? '#FFEED2' : 'white'}
       borderColor={click ? '#FFEED2' : '#CECECE'}
       onClick={() => {
         handleClick();
         handleTicketData(id);
+        disabledTicketButton(name);
       }}
     >
       <TicketType>{name}</TicketType>
@@ -21,7 +23,7 @@ export default function Ticket({ id, name, price, handleTicketData }) {
   );
 }
 
-const TicketBox = styled.section`
+const TicketBox = styled.button`
   height: 145px;
   width: 145px;
   border-radius: 20px;
@@ -32,6 +34,9 @@ const TicketBox = styled.section`
   align-items: center;
   border: 1px solid ${(props) => props.borderColor};
   background-color: ${(props) => props.backColor};
+  :hover{
+    cursor:pointer;
+  }
 `;
 
 const TicketType = styled.h2`

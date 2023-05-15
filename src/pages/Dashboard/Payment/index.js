@@ -21,6 +21,8 @@ export default function Payment() {
   const [withHotel, setWithHotel] = useState(false);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [finalPrice, setFinalPrice] = useState(0);
+  const [ticketType, setTicketType] = useState('');
+  const [hotelType, setHotelType] = useState('');
 
   function handleTicketData(id) {
     const verifyIsRemote = tickets.find((el) => el.id === id);
@@ -35,6 +37,14 @@ export default function Payment() {
     setWithHotel(true);
     setFinalPrice(ticketPrice + hotelPrice);
   }
+
+  function disabledTicketButton(name) {
+    setTicketType(name);
+  }
+
+  function disabledHotelButton(name) {
+    setHotelType(name);
+  }
   return (
     <>
       <StyledTypography variant="h4">Ingresso e pagamento</StyledTypography>
@@ -43,7 +53,7 @@ export default function Payment() {
           <TicketsTitle>Primeiro, escolha sua modalidade de ingresso</TicketsTitle>
           <TicketsContainer>
             {tickets.map((el) => (
-              <Ticket key={el.id} id={el.id} name={el.name} price={el.price} handleTicketData={handleTicketData} />
+              <Ticket key={el.id} id={el.id} name={el.name} price={el.price} handleTicketData={handleTicketData} ticketType={ticketType} disabledTicketButton={disabledTicketButton} />
             ))}
           </TicketsContainer>
           {isPresencial ? (
@@ -57,6 +67,8 @@ export default function Payment() {
                     name={el.name}
                     price={el.hotelPrice}
                     handleHotelData={handleHotelData}
+                    hotelType={hotelType}
+                    disabledHotelButton={disabledHotelButton}
                   />
                 ))}
               </TicketsContainer>
