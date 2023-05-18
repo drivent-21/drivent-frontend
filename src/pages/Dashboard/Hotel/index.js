@@ -3,9 +3,27 @@ import MainSubtitle from '../../../components/Subtitle';
 import useGetHotels from '../../../hooks/api/useHotel';
 import CardHotel from '../../../components/CardHotel';
 
+import styled from 'styled-components';
+import { useState } from 'react';
+import RoomsButton from '../../../components/RoomsHotel';
+
 export default function Hotel() {
   const hotels = useGetHotels();
-  
+  const [selected, setSelected] = useState([]);
+  const [Rooms, setRooms] = useState([]);
+  const [selectedRooms, setSelectedRooms] = useState([]);
+
+  const handleClickHotels = (elm) => {
+    const newArr = [elm];
+    setSelected(newArr);
+    setRooms(elm.Rooms);
+  };
+
+  const handleClickRooms = (elm) => {
+    const newArr = [elm];
+    setSelectedRooms(newArr);
+  };
+
   return (
     <>
       <MainTitle>
@@ -14,7 +32,63 @@ export default function Hotel() {
       <MainSubtitle>
         {'Primeiro, escolha seu hotel'}
       </MainSubtitle>
-      <CardHotel image={'https://www.kayak.com.br/rimg/himg/44/fe/90/leonardo-61545-147068318-531165.jpg?width=1366&height=768&crop=true'} name={'Driven Hotel'} acomodationType={'single'} vacancies={'108'}/>
+      <CardContainer>
+        {
+          hotels?.map((elm) => (
+            <div key={elm.id} onClick={() => handleClickHotels(elm)}>
+              <CardHotel 
+                key={elm.id} 
+                image={elm.image} 
+                name={elm.name} 
+                acomodationType={'Verificar'} 
+                vacancies={elm.Rooms.length} 
+                selected={selected.includes(elm) ? 'selected' : 'unselected' 
+                }/>
+            </div>
+          ))
+        }
+      </CardContainer>
+      {
+        selected.length !== 0 
+          ?  
+          <MainSubtitle>
+            {'Ótima pedida! Agora escolha seu quarto:'}
+          </MainSubtitle>
+          :
+          <MainSubtitle>
+            {''}
+          </MainSubtitle>
+      }
+      <RoomsContainer>
+        {
+          Rooms?.map(elm => (
+            <div onClick={() => handleClickRooms(elm)}>
+              <RoomsButton 
+                key={elm.id} 
+                name={elm.name} 
+                capacity={elm.capacity} 
+                selected={selectedRooms.includes(elm) ? 'selected' : 'unselected' }
+              />
+            </div>
+          ))
+        }
+      </RoomsContainer>
+      
     </>
   );
 }
+
+const CardContainer = styled.main`
+  display: flex;
+  width: 95%;
+  height: auto;
+  gap: 19px;
+  justify-content: space-between
+`;
+
+const RoomsContainer = styled.div`
+  display: flex;
+  width: 95%;
+  height: auto;
+  gap: 17px;
+`;

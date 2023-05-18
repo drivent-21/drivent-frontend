@@ -9,7 +9,7 @@ export default function MainSubtitle({ children }) {
 }
 
 const Subtitle = styled.div`
-width: 240px;
+width: 100%;
 height: 23px;
 
 font-family: 'Roboto';

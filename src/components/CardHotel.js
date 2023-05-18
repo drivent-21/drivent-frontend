@@ -1,32 +1,25 @@
 import styled from 'styled-components';
 
 export default function CardHotel(props) {
-  const { image, name, acomodationType, vacancies } = props;
+  const { image, name, acomodationType, vacancies, selected } = props;
 
   return (
-    <CardContainer>
-      <Card>
-        <img src={image} alt='hotel'/>
-        <h1>{name}</h1>
-        <div>
-          <h2>{'Tipos de acomodação:'}</h2>
-          <h3>{acomodationType}</h3>
-        </div>
-        <div>
-          <h2>{'Vagas disponíveis:'}</h2>
-          <h3>{vacancies}</h3>
-        </div>
-      </Card>
-    </CardContainer>
+
+    <Card selected={selected} >
+      <img src={image} alt='hotel'/>
+      <h1>{name}</h1>
+      <div>
+        <h2>{'Tipos de acomodação:'}</h2>
+        <h3>{acomodationType}</h3>
+      </div>
+      <div>
+        <h2>{'Vagas disponíveis:'}</h2>
+        <h3>{vacancies}</h3>
+      </div>
+    </Card>
+   
   );
 };
-
-const CardContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    height: auto;
-`;
 
 const Card = styled.div`
     display: flex;
@@ -34,11 +27,16 @@ const Card = styled.div`
     justify-content: space-between;
     width: 196px;
     height: 264px;
-    background: #EBEBEB;
+    background: ${props => props.selected === 'unselected' ? '#EBEBEB' : '#FFEED2'};
     border-radius: 10px;
 
     box-sizing: border-box;
     padding: 16px 14px;
+
+    :hover {
+      background-color: ${props => props.selected === 'unselected' ? '#dedede' : ''};
+      box-shadow: 0.5px 1px 1px #CECECE;
+    }
 
     img {
       width: 168px;
