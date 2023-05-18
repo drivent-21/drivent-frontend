@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 /* eslint-disable indent */
 export const ticketButtonInfo = {
     title: 'Primeiro, escolha sua modalidade de ingresso',
@@ -22,3 +23,14 @@ export const hotelButtonInfo = {
         price: 'R$ 350,00',
     },
 };
+
+export function finishButtonInfo(price) {
+    switch (price) {
+        case 250:
+            return 'Presencial + Sem Hotel';
+        case 600:
+            return 'Presencial + Com Hotel';
+        case 100:
+            return 'Online';
+    }
+}

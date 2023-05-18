@@ -3,25 +3,21 @@
 import { ButtonsContainer } from './ButtonsContainer';
 import { ticketButtonInfo, hotelButtonInfo } from './utils/buttonInfo';
 import { FinishContainer } from './FinishContainer';
-import { useState } from 'react';
+import { useContext } from 'react';
 import { TicketContext } from './context';
 
 export function TicketModal() {
-    const [ticket, setTicket] = useState('');
-
-    function handleTicket(type) {
-        setTicket(type);
-    }
-
+    const { ticketState } = useContext(TicketContext);
+    
     return (
-        <TicketContext.Provider value={{ handleTicket }} >
+        <>
             <ButtonsContainer
                 title={ticketButtonInfo.title}
                 firstButton={ticketButtonInfo.firstButton}
                 secondButton={ticketButtonInfo.secondButton}
             />
             {
-                ticket === 'Presencial' | ticket === 'Sem Hotel' | ticket === 'Com Hotel' &&
+                ticketState.Presencial | ticketState['Sem Hotel'] | ticketState['Com Hotel'] &&
                 <ButtonsContainer
                     title={hotelButtonInfo.title}
                     firstButton={hotelButtonInfo.firstButton}
@@ -29,10 +25,10 @@ export function TicketModal() {
                 />
             }
             {
-                ticket === 'Online' | ticket === 'Sem Hotel' | ticket === 'Com Hotel' &&
+                ticketState.Online | ticketState['Sem Hotel'] | ticketState['Com Hotel'] &&
                 <FinishContainer />
             }
 
-        </TicketContext.Provider>
+        </>
     );
 }
