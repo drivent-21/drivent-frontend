@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable default-case */
 import { Header } from './Header';
 import { TicketModal } from './TicketModal';
 import { useState } from 'react';
@@ -122,6 +120,3 @@ export default function Payment() {
       }
 
     </TicketContext.Provider>
-  );
-}
-
