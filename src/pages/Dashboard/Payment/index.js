@@ -35,7 +35,7 @@ export default function Payment() {
           }
         });
 
-      setTicketState({ ...ticketState, ticketTypeId: res.data });
+      setTicketState({ ...ticketState, ticketTypeId: res.data.id });
     }
   }
 
