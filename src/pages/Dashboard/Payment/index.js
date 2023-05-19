@@ -3,6 +3,7 @@ import { TicketModal } from './TicketModal';
 import { useState } from 'react';
 import { TicketContext } from './context';
 import { FinishPayment } from './FinishPayment';
+import api from '../../../services/api';
 
 export default function Payment() {
   const [paymentStage, setPaymentStage] = useState(0);
@@ -12,7 +13,29 @@ export default function Payment() {
     Online: false,
     'Sem Hotel': false,
     'Com Hotel': false,
+    ticketTypeId: null
   });
+
+  async function ticketType(name) {
+    const { token } = JSON.parse(localStorage.getItem('userData'));
+
+    if (name !== 'Presencial') {
+      let res = await api.put('/tickets/types', {
+        name: name,
+        price: totalPrice,
+        isRemote: ticketState.Online,
+        includesHotel: ticketState['Com Hotel'],
+        ticketTypeId: ticketState.ticketTypeId
+      },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+    
+      setTicketState({ ...ticketState, ticketTypeId: res.data });
+    }
+  }
 
   function handleTicketState(name) {
     switch (name) {
@@ -72,6 +95,7 @@ export default function Payment() {
   function handleSelect(name) {
     handleTicketState(name);
     handlePrice(name);
+    ticketType(name);
   }
 
   return (
@@ -92,7 +116,7 @@ export default function Payment() {
 
       {
         paymentStage === 1 | paymentStage === 2 &&
-       <FinishPayment />
+        <FinishPayment />
       }
 
     </TicketContext.Provider>
