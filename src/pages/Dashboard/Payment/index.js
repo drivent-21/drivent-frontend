@@ -1,3 +1,5 @@
+/* eslint-disable default-case */
+/* eslint-disable indent */
 import { Header } from './Header';
 import { TicketModal } from './TicketModal';
 import { useState } from 'react';
@@ -32,7 +34,7 @@ export default function Payment() {
             Authorization: `Bearer ${token}`
           }
         });
-    
+
       setTicketState({ ...ticketState, ticketTypeId: res.data });
     }
   }
@@ -120,3 +122,5 @@ export default function Payment() {
       }
 
     </TicketContext.Provider>
+  );
+}
