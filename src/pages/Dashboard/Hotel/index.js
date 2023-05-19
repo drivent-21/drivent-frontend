@@ -62,7 +62,7 @@ export default function Hotel() {
       <RoomsContainer>
         {
           Rooms?.map(elm => (
-            <div onClick={() => handleClickRooms(elm)}>
+            <div key={elm.id} onClick={() => handleClickRooms(elm)}>
               <RoomsButton 
                 key={elm.id} 
                 name={elm.name} 
