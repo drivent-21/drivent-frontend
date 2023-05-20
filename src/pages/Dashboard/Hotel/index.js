@@ -6,6 +6,7 @@ import CardHotel from '../../../components/CardHotel';
 import styled from 'styled-components';
 import { useState } from 'react';
 import RoomsButton from '../../../components/RoomsHotel';
+import ButtonDashboard from '../../../components/ButtonDashboard';
 
 export default function Hotel() {
   const hotels = useGetHotels();
@@ -73,7 +74,15 @@ export default function Hotel() {
           ))
         }
       </RoomsContainer>
-      
+      {
+        selectedRooms.length !== 0
+          ?
+          <ButtonDashboard>
+            {'RESERVAR QUARTO'}
+          </ButtonDashboard>
+          :
+          ''
+      }
     </>
   );
 }
@@ -83,12 +92,14 @@ const CardContainer = styled.main`
   width: 95%;
   height: auto;
   gap: 19px;
-  justify-content: space-between
+  justify-content: space-between;
 `;
 
 const RoomsContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 190px 190px 190px 190px;
   width: 95%;
   height: auto;
   gap: 17px;
+  margin-top: 33px;
 `;

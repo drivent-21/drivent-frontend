@@ -26,6 +26,7 @@ const Container = styled.div`
   height: 100%;
   width: 100%;
   overflow-y: auto;
+  box-sizing: border-box;
 
   @media (max-width: 600px) {
     height: calc(100vh - 80px);

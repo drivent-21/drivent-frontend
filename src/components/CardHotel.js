@@ -35,7 +35,6 @@ const Card = styled.div`
 
     :hover {
       background-color: ${props => props.selected === 'unselected' ? '#dedede' : ''};
-      box-shadow: 0.5px 1px 1px #CECECE;
     }
 
     img {
