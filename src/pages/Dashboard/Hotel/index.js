@@ -83,11 +83,12 @@ const CardContainer = styled.main`
   width: 95%;
   height: auto;
   gap: 19px;
-  justify-content: space-between
+  justify-content: space-between;
 `;
 
 const RoomsContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 190px 190px 190px 190px;
   width: 95%;
   height: auto;
   gap: 17px;
