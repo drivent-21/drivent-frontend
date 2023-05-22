@@ -2,16 +2,22 @@
 /* eslint-disable default-case */
 /* eslint-disable indent */
 import { Header } from './Header';
+import { NoEnrollment } from './NoEnrollment';
 import { TicketModal } from './TicketModal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TicketContext } from './context';
 import { FinishPayment } from './FinishPayment';
 import api from '../../../services/api';
+import { useContext } from 'react';
+
+const { token } = JSON.parse(localStorage.getItem('userData'));
+const Auth = { headers: { Authorization: `Bearer ${token}` } };
 
 export default function Payment() {
   const [paymentStage, setPaymentStage] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [ticketTypeId, setTicketTypeId] = useState(null);
+  const [ticketId, setTicketId] = useState(null);
   const [ticketState, setTicketState] = useState({
     Presencial: false,
     Online: false,
@@ -19,6 +25,13 @@ export default function Payment() {
     'Com Hotel': false,
   });
 
+  async function findEnrollment() {
+    let res = await api.get('/enrollments', Auth);
+
+    console.log(res.data);
+
+    if (res.data.length === 0) setPaymentStage(-1);
+  }
   function handlePrice(name) {
     let localPrice = totalPrice;
     switch (name) {
@@ -43,9 +56,6 @@ export default function Payment() {
   }
 
   async function ticketType(isOnLine) {
-    const { token } = await JSON.parse(localStorage.getItem('userData'));
-    const Auth = { headers: { Authorization: `Bearer ${token}` } };
-
     let name = isOnLine ? 'Online' : 'Presencial';
 
     let res = await api.put('/tickets/types', {
@@ -58,7 +68,9 @@ export default function Payment() {
     console.log(ticketTypeId, ticketState);
     setTicketTypeId({ id: res.data.id });
 
-    await api.post('/tickets', { ticketTypeId: res.data.id }, Auth);
+    const { data } = await api.post('/tickets', { ticketTypeId: res.data.id }, Auth);
+
+    setTicketId(data.id);
   }
 
   function handleTicketState(name) {
@@ -99,6 +111,23 @@ export default function Payment() {
     handleTicketState(name);
   }
 
+  async function handlePayment(cardData, ticketId) {
+    console.log(cardData, ticketId);
+    try {
+      await api.post('/payments/process', {
+        cardData,
+        ticketId
+      }, Auth);
+      setPaymentStage(2);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    findEnrollment();
+  }, []);
+
   return (
     <TicketContext.Provider
       value={{
@@ -108,8 +137,16 @@ export default function Payment() {
         setPaymentStage,
         paymentStage,
         ticketType,
+        ticketId,
+        handlePayment,
+        Auth,
       }} >
       <Header />
+
+      {
+        paymentStage === -1 &&
+        <NoEnrollment />
+      }
 
       {
         paymentStage === 0 &&
