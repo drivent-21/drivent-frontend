@@ -4,6 +4,7 @@ import 'react-credit-cards/es/styles-compiled.css';
 import styled from 'styled-components';
 import { useContext } from 'react';
 import { TicketContext } from '../context';
+import api from '../../../../services/api';
 
 export default class PaymentForm extends React.Component {
   static contextType = TicketContext;
@@ -26,7 +27,12 @@ export default class PaymentForm extends React.Component {
   }
 
   render() {
-    const { setPaymentStage } = this.context;
+    const { handlePayment, ticketId } = this.context;
+    const cardData = {
+      issuer: this.state.name,
+      number: this.state.number,
+    };
+
     return (
       <PaymentFormStyle id="PaymentForm">
         <Cards
@@ -68,7 +74,7 @@ export default class PaymentForm extends React.Component {
             />
           </InputContainer>
         </form>
-        <button onClick={() => setPaymentStage(2)}>
+        <button onClick={() => handlePayment(cardData, ticketId)}>
           Finalizar pagamento
         </button>
       </PaymentFormStyle>
