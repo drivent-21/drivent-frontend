@@ -17,16 +17,16 @@ export function TicketModal() {
                 secondButton={ticketButtonInfo.secondButton}
             />
             {
-                ticketState.Presencial | ticketState['Sem Hotel'] | ticketState['Com Hotel'] &&
+                ticketState.Presencial | ticketState['Sem Hotel'] | ticketState['Com Hotel'] ?
                 <ButtonsContainer
                     title={hotelButtonInfo.title}
                     firstButton={hotelButtonInfo.firstButton}
                     secondButton={hotelButtonInfo.secondButton}
-                />
+                /> : null
             }
             {
-                ticketState.Online | ticketState['Sem Hotel'] | ticketState['Com Hotel'] &&
-                <FinishContainer />
+                ticketState.Online | ticketState['Sem Hotel'] | ticketState['Com Hotel'] ?
+                <FinishContainer /> : null
             }
 
         </>
