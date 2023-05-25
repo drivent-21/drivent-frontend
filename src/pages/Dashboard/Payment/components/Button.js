@@ -4,7 +4,7 @@ import { TicketContext } from '../context';
 
 function changeColor(isSelected) {
   if (isSelected) {
-    return '#FEC63E';
+    return '#FFEED2';
   }
   return '#FFF';
 }
@@ -30,8 +30,7 @@ const ButtonStyle = styled.button`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => changeColor(props.ticketState[props.name])} !important;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 20px;
   margin: 20px;
   width: 200px;
@@ -42,7 +41,10 @@ const ButtonStyle = styled.button`
   text-align: center;
   cursor: pointer;
   > p {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 16px;
   }
+  p:nth-child(2) {
+            color: #898989;
+        }
 `;

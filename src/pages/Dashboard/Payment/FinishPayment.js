@@ -11,7 +11,7 @@ export function FinishPayment() {
     const { totalPrice, paymentStage } = useContext(TicketContext);
     return (
         <ButtonStyle>
-            <h1>Fechado! O total ficou em R$ {totalPrice}. Agora é só confirmar:</h1>
+            <h1>Ingresso escolhido</h1>
             <Button name={finishButtonInfo(totalPrice)} price={`R$ ${totalPrice}`} />
             {paymentStage === 1 ? <Cardform /> : <FinishMensage />
             }
@@ -20,7 +20,22 @@ export function FinishPayment() {
 }
 
 const ButtonStyle = styled.div`
+    h1 {
+        font-size: 20px;
+        weight: 400;
+        line-height: 23px;
+        color: #8E8E8E;
+        font-family: 'Roboto', sans-serif;
+    }
     button:first-child {
-        background-color: #FEC63E !important;
+        background-color: #FFEED2 !important;
+        width: 290px;
+        height: 108px;
+        display: flex;
+    }
+    button:nth-child(2) {
+        background-color: #FFEED2 !important;
+        width: 290px;
+        height: 108px;
     }
 `;
