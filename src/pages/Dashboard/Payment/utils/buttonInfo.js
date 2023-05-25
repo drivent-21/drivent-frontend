@@ -13,7 +13,7 @@ export const ticketButtonInfo = {
 };
 
 export const hotelButtonInfo = {
-    title: 'Agora, escolha sua modalidade de hospedagem',
+    title: 'Ótimo! Agora, escolha sua modalidade de hospedagem',
     firstButton: {
         name: 'Sem Hotel',
         price: 'R$ 0',

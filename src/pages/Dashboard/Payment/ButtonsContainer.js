@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export function ButtonsContainer({ title, firstButton, secondButton }) {
   return (
-    <>
+    <CtnStyle>
       <h2>{title}</h2>
       <ButtonsContainerStyle>
         <Button
@@ -19,7 +19,7 @@ export function ButtonsContainer({ title, firstButton, secondButton }) {
         }
       </ButtonsContainerStyle>
 
-    </>
+    </CtnStyle>
   );
 }
 
@@ -29,3 +29,13 @@ const ButtonsContainerStyle = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const CtnStyle = styled.div`  
+    h2{
+        font-size: 20px;
+        weight: 400;
+        line-height: 23px;
+        color: #8E8E8E;
+        font-family: 'Roboto', sans-serif;  
+    }
+  `;

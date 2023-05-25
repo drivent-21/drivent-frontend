@@ -112,7 +112,6 @@ export default function Payment() {
   }
 
   async function handlePayment(cardData, ticketId) {
-    console.log(cardData, ticketId);
     try {
       await api.post('/payments/process', {
         cardData,
