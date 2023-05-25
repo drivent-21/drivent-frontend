@@ -28,8 +28,6 @@ export default function Payment() {
   async function findEnrollment() {
     let res = await api.get('/enrollments', Auth);
 
-    console.log(res.data);
-
     if (res.data.length === 0) setPaymentStage(-1);
   }
   function handlePrice(name) {
@@ -143,18 +141,18 @@ export default function Payment() {
       <Header />
 
       {
-        paymentStage === -1 &&
-        <NoEnrollment />
+        paymentStage === -1 ?
+        <NoEnrollment /> : ''
       }
 
       {
-        paymentStage === 0 &&
-        <TicketModal />
+        paymentStage === 0 ?
+        <TicketModal /> : ''
       }
 
       {
-        paymentStage === 1 | paymentStage === 2 &&
-        <FinishPayment />
+        paymentStage === 1 | paymentStage === 2 ?
+        <FinishPayment /> : ''
       }
 
     </TicketContext.Provider>
