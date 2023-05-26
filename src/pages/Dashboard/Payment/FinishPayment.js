@@ -28,14 +28,15 @@ const ButtonStyle = styled.div`
         font-family: 'Roboto', sans-serif;
     }
     button:first-child {
-        background-color: #FFEED2 !important;
+        background-color: #FFEED2 ;
         width: 290px;
         height: 108px;
         display: flex;
     }
     button:nth-child(2) {
-        background-color: #FFEED2 !important;
+        background-color: #FFEED2 ;
         width: 290px;
         height: 108px;
+        border: none
     }
 `;
