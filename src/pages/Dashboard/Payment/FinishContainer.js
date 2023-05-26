@@ -21,6 +21,7 @@ const CtnStyle = styled.div`
     button { 
         color: #000000;
         margin-top: 20px;
+        padding: 10px 20px;
         height: 37px;
         border-radius: 5px;
         font-size: 16px;
