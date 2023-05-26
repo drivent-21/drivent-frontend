@@ -13,7 +13,7 @@ function changeBorder(isSelected) {
   if (isSelected) {
     return 'none';
   }
-  return '1px solid #000';
+  return '1px solid #8E8E8E';
 }
 
 export function Button({ name, price }) {
