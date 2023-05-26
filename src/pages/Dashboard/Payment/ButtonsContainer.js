@@ -30,7 +30,7 @@ const ButtonsContainerStyle = styled.div`
   justify-content: center;
 `;
 
-const CtnStyle = styled.div`  
+const CtnStyle = styled.div` 
     h2{
         font-size: 20px;
         weight: 400;

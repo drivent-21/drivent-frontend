@@ -9,6 +9,13 @@ function changeColor(isSelected) {
   return '#FFF';
 }
 
+function changeBorder(isSelected) {
+  if (isSelected) {
+    return 'none';
+  }
+  return '1px solid #000';
+}
+
 export function Button({ name, price }) {
   const { handleSelect, ticketState } = useContext(TicketContext);
 
@@ -29,7 +36,7 @@ const ButtonStyle = styled.button`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => changeColor(props.ticketState[props.name])} !important;
+  background-color: ${(props) => changeColor(props.ticketState[props.name])};
   border-radius: 20px;
   padding: 20px;
   margin: 20px;
@@ -39,6 +46,7 @@ const ButtonStyle = styled.button`
   font-weight: 500;
   color: #333;
   text-align: center;
+  border: ${(props) => changeBorder(props.ticketState[props.name])};
   cursor: pointer;
   > p {
     margin-bottom: 10px;
