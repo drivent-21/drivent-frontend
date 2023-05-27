@@ -8,3 +8,12 @@ export async function getHotels(token) {
   });
   return response.data;
 };
+
+export async function registerBooking(body, token) {
+  const response = await api.post('/bookings', body, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};

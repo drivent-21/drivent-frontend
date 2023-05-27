@@ -1,18 +1,20 @@
 import MainTitle from '../../../components/MainTitle';
 import MainSubtitle from '../../../components/Subtitle';
-import useGetHotels from '../../../hooks/api/useHotel';
+import useHotels from '../../../hooks/api/useHotel';
 import CardHotel from '../../../components/CardHotel';
 
 import styled from 'styled-components';
 import { useState } from 'react';
 import RoomsButton from '../../../components/RoomsHotel';
 import ButtonDashboard from '../../../components/ButtonDashboard';
+import FinalCardHotel from '../../../components/FinalCardHotels';
 
 export default function Hotel() {
-  const hotels = useGetHotels();
+  const hotels = useHotels.useGetHotels();
   const [selected, setSelected] = useState([]);
   const [Rooms, setRooms] = useState([]);
   const [selectedRooms, setSelectedRooms] = useState([]);
+  const [confirmBooking, setConfirmBooking] = useState(false);
 
   const handleClickHotels = (elm) => {
     const newArr = [elm];
@@ -25,15 +27,21 @@ export default function Hotel() {
     setSelectedRooms(newArr);
   };
 
+  const handleClickConfirmBooking = (elm) => {
+    setConfirmBooking(true);
+  };
+
   return (
     <>
       <MainTitle>
         {'Escolha de hotel e quarto'}
       </MainTitle>
       <MainSubtitle>
-        {'Primeiro, escolha seu hotel'}
+        {
+          confirmBooking ? 'Você já escolheu seu quarto: ' : 'Primeiro, escolha seu hotel'
+        }
       </MainSubtitle>
-      <CardContainer>
+      <CardContainer confirmBooking={confirmBooking}>
         {
           hotels?.map((elm) => (
             <div key={elm.id} onClick={() => handleClickHotels(elm)}>
@@ -41,7 +49,7 @@ export default function Hotel() {
                 key={elm.id} 
                 image={elm.image} 
                 name={elm.name} 
-                acomodationType={'Verificar'} 
+                acomodationType={'Single, Triple or Double'} 
                 vacancies={elm.Rooms.length} 
                 selected={selected.includes(elm) ? 'selected' : 'unselected' 
                 }/>
@@ -49,18 +57,20 @@ export default function Hotel() {
           ))
         }
       </CardContainer>
-      {
-        selected.length !== 0 
-          ?  
-          <MainSubtitle>
-            {'Ótima pedida! Agora escolha seu quarto:'}
-          </MainSubtitle>
-          :
-          <MainSubtitle>
-            {''}
-          </MainSubtitle>
-      }
-      <RoomsContainer>
+      <Subtitle confirmBooking={confirmBooking}>
+        {
+          selected.length !== 0 
+            ?  
+            <MainSubtitle>
+              {'Ótima pedida! Agora escolha seu quarto:'}
+            </MainSubtitle>
+            : 
+            <MainSubtitle>
+              {''}
+            </MainSubtitle>
+        }
+      </Subtitle>
+      <RoomsContainer confirmBooking={confirmBooking}>
         {
           Rooms?.map(elm => (
             <div key={elm.id} onClick={() => handleClickRooms(elm)}>
@@ -74,21 +84,33 @@ export default function Hotel() {
           ))
         }
       </RoomsContainer>
+      <FinalCardHotel 
+        confirmBooking={confirmBooking} 
+        image={selected[0]?.image} 
+        hotelName={selected[0]?.name} 
+        reservedRoom={selectedRooms[0]?.name}
+        capacity={selectedRooms[0]?.capacity}
+      />
       {
         selectedRooms.length !== 0
           ?
-          <ButtonDashboard>
-            {'RESERVAR QUARTO'}
-          </ButtonDashboard>
+          <div onClick={handleClickConfirmBooking}>
+            <ButtonDashboard >
+              {
+                confirmBooking ? 'TROCAR DE QUARTO' : 'RESERVAR QUARTO'
+              }
+            </ButtonDashboard>
+          </div>
           :
           ''
       }
+      
     </>
   );
 }
 
 const CardContainer = styled.main`
-  display: flex;
+  display: ${props => props.confirmBooking === true ? 'none' : 'flex'};
   width: 95%;
   height: auto;
   gap: 19px;
@@ -96,10 +118,16 @@ const CardContainer = styled.main`
 `;
 
 const RoomsContainer = styled.div`
-  display: grid;
+  display: ${props => props.confirmBooking === true ? 'none' : 'grid'};
   grid-template-columns: 190px 190px 190px 190px;
   width: 95%;
   height: auto;
   gap: 17px;
   margin-top: 33px;
+`;
+
+const Subtitle = styled.div`
+ display: ${props => props.confirmBooking === true ? 'none' : 'flex'};
+ width: auto;
+ height: auto;
 `;
