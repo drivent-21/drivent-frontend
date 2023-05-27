@@ -15,7 +15,6 @@ export default function Hotel() {
   const [Rooms, setRooms] = useState([]);
   const [selectedRooms, setSelectedRooms] = useState([]);
   const [confirmBooking, setConfirmBooking] = useState(false);
-  console.log(selectedRooms);
 
   const handleClickHotels = (elm) => {
     const newArr = [elm];
