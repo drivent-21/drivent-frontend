@@ -8,7 +8,6 @@ import { useState, useEffect } from 'react';
 import { TicketContext } from './context';
 import { FinishPayment } from './FinishPayment';
 import api from '../../../services/api';
-import { useContext } from 'react';
 
 const { token } = JSON.parse(localStorage.getItem('userData'));
 const Auth = { headers: { Authorization: `Bearer ${token}` } };
@@ -63,7 +62,7 @@ export default function Payment() {
       includesHotel: ticketState['Com Hotel'],
       ticketTypeId
     }, Auth);
-    console.log(ticketTypeId, ticketState);
+   
     setTicketTypeId({ id: res.data.id });
 
     const { data } = await api.post('/tickets', { ticketTypeId: res.data.id }, Auth);
